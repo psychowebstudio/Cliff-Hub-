@@ -113,8 +113,8 @@ const mixedProducts=[];
 while(categoryOrder.some(category=>groupedProducts[category].length)){
   categoryOrder.forEach(category=>{if(groupedProducts[category].length)mixedProducts.push(groupedProducts[category].shift())});
 }
-mixedProducts.forEach((item,index)=>{item.dataset.page=String(Math.floor(index/12)+1);productGrid.appendChild(item)});
-const totalPages=Math.ceil(mixedProducts.length/12);
+mixedProducts.forEach((item,index)=>{item.dataset.page=String(Math.floor(index/20)+1);productGrid.appendChild(item)});
+const totalPages=Math.ceil(mixedProducts.length/20);
 const items=[...document.querySelectorAll('.product')], buttons=[...document.querySelectorAll('[data-filter]')], search=document.querySelector('#search'), prevPage=document.querySelector('#prevPage'), nextPage=document.querySelector('#nextPage'), pageLabel=document.querySelector('#pageLabel'), pageNumbers=document.querySelector('#pageNumbers');
 let filter='All', page=1;
 function renderPageNumbers(){pageNumbers.innerHTML='';for(let n=1;n<=totalPages;n++){const button=document.createElement('button');button.type='button';button.className='page-number'+(n===page?' active':'');button.textContent=String(n);button.setAttribute('aria-label','Go to product page '+n);if(n===page)button.setAttribute('aria-current','page');button.onclick=()=>{page=n;render()};pageNumbers.appendChild(button)}}
