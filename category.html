@@ -16,7 +16,7 @@ main{max-width:1180px;margin:auto;padding:20px}.hero{padding:38px 0 18px}.eyebro
 <body>
 <header><div class="nav"><a class="brand" href="index.html"><img class="brand-logo" src="https://cdn.shopify.com/s/files/1/0954/2284/1079/files/file_00000000992881f49c297c4566527537_7a6d0c10-302f-459a-92d4-f5dd3cffa0c5.png?v=1789147984" alt="Cliff Hub logo"></a><span class="brand-title">Cliff <span>Hub</span></span><nav><a href="index.html#shop">All Products</a><a href="https://xduezu-ag.myshopify.com" target="_blank" rel="noopener">Store</a></nav></div></header>
 <main>
-<section class="hero"><div class="eyebrow">Cliff Hub Collections</div><h1 id="categoryTitle">Browse Category</h1><p id="categoryDescription">Find all products from this collection in one place.</p></section>
+<section class="hero"><div class="eyebrow">Cliff Hub Collections</div><h1 id="categoryTitle">Browse Category</h1><p id="categoryDescription">Find all products from this collection in one place.</p><p id="productCount" aria-live="polite" style="margin-top:10px;font-size:13px;font-weight:700;color:#8a4bd4">Loading products…</p></section>
 <div class="toolbar"><div class="filters" id="categoryLinks"></div><input id="search" placeholder="Search this category…"></div>
 <section class="grid" id="grid" aria-live="polite"><p class="empty">Loading products…</p></section>
 </main><footer>© 2026 Cliff Hub · Powered by Shopify</footer>
@@ -29,6 +29,7 @@ const title=document.querySelector('#categoryTitle');
 const desc=document.querySelector('#categoryDescription');
 const grid=document.querySelector('#grid');
 const search=document.querySelector('#search');
+const productCount=document.querySelector('#productCount');
 title.textContent=category+' Products';
 desc.textContent='Explore all '+category.toLowerCase()+' products available from Cliff Hub.';
 document.title='Cliff Hub | '+category+' Products';
@@ -38,6 +39,7 @@ function render(){
  const q=search.value.trim().toLowerCase();
  const matches=categoryProducts.filter(card=>(card.dataset.name||'').toLowerCase().includes(q)||(card.querySelector('h3')?.textContent||'').toLowerCase().includes(q));
  grid.replaceChildren();
+ productCount.textContent=matches.length+' product'+(matches.length===1?'':'s')+(q?' matching your search':' in this category');
  if(!matches.length){const p=document.createElement('p');p.className='empty';p.textContent=q?'No products match that search in this category.':'No products are currently listed in this category.';grid.append(p);return;}
  matches.forEach(card=>grid.append(card.cloneNode(true)));
 }
@@ -46,6 +48,6 @@ fetch('index.html').then(response=>{if(!response.ok)throw new Error('Could not l
  const doc=new DOMParser().parseFromString(source,'text/html');
  categoryProducts=[...doc.querySelectorAll('.product')].filter(card=>card.dataset.cat===category);
  render();
-}).catch(()=>{grid.innerHTML='<p class="empty">Products could not be loaded right now. Please return to <a href="index.html#shop"><strong>All Products</strong></a> and try again.</p>'});
+}).catch(()=>{productCount.textContent='Catalog temporarily unavailable';grid.innerHTML='<p class="empty">Products could not be loaded right now. Please return to <a href="index.html#shop"><strong>All Products</strong></a> and try again.</p>'});
 </script>
 </body></html>
