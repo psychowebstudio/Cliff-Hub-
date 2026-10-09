@@ -98,13 +98,23 @@ footer{border-top:1px solid #e8e2ef;margin-top:60px;padding:30px 20px;color:#858
 <section class="contact" id="contact"><div><span>GET IN TOUCH</span><h2>Need help?</h2><p>Send us a message and we'll get back to you.</p></div><form action="https://formsubmit.co/eazydowsky@gmail.com" method="POST"><input type="hidden" name="_subject" value="Cliff Hub customer message"><input type="hidden" name="_captcha" value="false"><input name="name" placeholder="Your name" required><input type="email" name="email" placeholder="Your email" required><textarea name="message" placeholder="How can we help?" rows="5" required></textarea><button type="submit">Send message</button></form></section>
 <footer>© 2026 Cliff Hub · Powered by Shopify</footer>
 <script>
+const productGrid=document.querySelector('#grid');
+const allProducts=[...productGrid.querySelectorAll('.product')];
+const categoryOrder=['Student','Tech','Audio','Gaming','Creator','Home','Outdoor','Wellness'];
+const groupedProducts=Object.fromEntries(categoryOrder.map(category=>[category,allProducts.filter(item=>item.dataset.cat===category)]));
+const mixedProducts=[];
+while(categoryOrder.some(category=>groupedProducts[category].length)){
+  categoryOrder.forEach(category=>{if(groupedProducts[category].length)mixedProducts.push(groupedProducts[category].shift())});
+}
+mixedProducts.forEach((item,index)=>{item.dataset.page=String(Math.floor(index/12)+1);productGrid.appendChild(item)});
+const totalPages=Math.ceil(mixedProducts.length/12);
 const items=[...document.querySelectorAll('.product')], buttons=[...document.querySelectorAll('[data-filter]')], search=document.querySelector('#search'), prevPage=document.querySelector('#prevPage'), nextPage=document.querySelector('#nextPage'), pageLabel=document.querySelector('#pageLabel');
 let filter='All', page=1;
-function render(){const q=search.value.toLowerCase();items.forEach(x=>{const matchesPage=(x.dataset.page||'1')===String(page);const matchesFilter=filter==='All'||x.dataset.cat===filter;const matchesSearch=x.dataset.name.includes(q);x.style.display=(matchesPage&&matchesFilter&&matchesSearch)?'block':'none'});prevPage.disabled=page===1;nextPage.disabled=page===6;pageLabel.textContent='Page '+page+' of 6';window.scrollTo({top:document.querySelector('#shop').offsetTop-80,behavior:'smooth'})}
+function render(){const q=search.value.toLowerCase();items.forEach(x=>{const matchesPage=(x.dataset.page||'1')===String(page);const matchesFilter=filter==='All'||x.dataset.cat===filter;const matchesSearch=x.dataset.name.includes(q);x.style.display=(matchesPage&&matchesFilter&&matchesSearch)?'block':'none'});prevPage.disabled=page===1;nextPage.disabled=page===totalPages;pageLabel.textContent='Page '+page+' of '+totalPages;window.scrollTo({top:document.querySelector('#shop').offsetTop-80,behavior:'smooth'})}
 buttons.forEach(b=>b.onclick=()=>{buttons.forEach(x=>x.classList.remove('active'));b.classList.add('active');filter=b.dataset.filter;render()});
 search.oninput=render;
 prevPage.onclick=()=>{if(page>1){page--;render()}};
-nextPage.onclick=()=>{if(page<6){page++;render()}};
+nextPage.onclick=()=>{if(page<totalPages){page++;render()}};
 render();
 </script>
 </body></html>
