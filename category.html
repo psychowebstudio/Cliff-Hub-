@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Browse every product in your chosen Cliff Hub category.">
+<title>Cliff Hub | Category</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%23211d2b%22/%3E%3Cpath d=%22M10 48 27 19l10 15 7-10 10 24H10Z%22 fill=%22%238a4bd4%22/%3E%3Cpath d=%22M27 19 37 34l7-10%22 fill=%22none%22 stroke=%22%2300d9ff%22 stroke-width=%224%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f7f4fb;color:#211d2b;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}a{color:inherit;text-decoration:none}
+header{position:sticky;top:0;z-index:10;background:rgba(247,244,251,.92);backdrop-filter:blur(16px);border-bottom:1px solid #e8e2ef}.nav{max-width:1180px;margin:auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:10px}.brand-logo{width:150px;height:auto;max-height:52px;object-fit:contain;display:block}.brand-title{font-size:21px;font-weight:900;letter-spacing:-.5px;color:#211d2b;white-space:nowrap}.brand-title span{color:#8a4bd4}nav{display:flex;gap:22px;font-size:14px;color:#625b6d;font-weight:700}nav a:hover{color:#8a4bd4}
+main{max-width:1180px;margin:auto;padding:20px}.hero{padding:38px 0 18px}.eyebrow{color:#8a4bd4;font-weight:800;text-transform:uppercase;letter-spacing:2px;font-size:12px}.hero h1{font-size:clamp(34px,5vw,54px);margin:10px 0}.hero p{color:#6f6878;line-height:1.7;margin:0}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:15px 0 25px;flex-wrap:wrap}.filters{display:flex;gap:8px;flex-wrap:wrap}.filters a{border:1px solid #ded6e6;background:#fff;color:#625b6d;border-radius:999px;padding:9px 14px;cursor:pointer;font-weight:700;font-size:13px;display:inline-block}.filters a.active,.filters a:hover{background:#211d2b;color:#fff;border-color:#211d2b}input{background:#fff;border:1px solid #ded6e6;color:#211d2b;border-radius:11px;padding:11px 13px;min-width:210px;outline:none}input:focus{border-color:#8a4bd4}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.product{background:#fff;border:1px solid #e7e0eb;border-radius:18px;overflow:hidden;transition:.2s;box-shadow:0 7px 22px rgba(62,42,77,.05)}.product:hover{transform:translateY(-4px);border-color:#cbb5df;box-shadow:0 15px 30px rgba(62,42,77,.10)}.product img{width:100%;aspect-ratio:1/1;object-fit:cover;background:#f2eef5}.info{padding:15px}.tag{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#8a4bd4;font-weight:800}.product h3{font-size:15px;line-height:1.35;margin:8px 0 15px;min-height:61px}.bottom{display:flex;align-items:center;justify-content:space-between;gap:8px}.bottom strong{font-size:17px}.prices{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.prices del{font-size:12px;color:#858191}.bottom a{font-size:12px;font-weight:800;background:#f1eafa;padding:8px 10px;border-radius:9px;color:#6f38ad}.bottom a:hover{background:#211d2b;color:#fff}.empty{background:#fff;border:1px solid #e7e0eb;border-radius:18px;padding:28px;color:#6f6878}footer{border-top:1px solid #e8e2ef;margin-top:60px;padding:30px 20px;color:#858191;text-align:center;font-size:13px}@media(max-width:900px){.grid{grid-template-columns:repeat(3,1fr)}}@media(max-width:650px){nav{display:none}.grid{grid-template-columns:repeat(2,1fr);gap:10px}.product h3{font-size:13px;min-height:68px}.info{padding:12px}input{width:100%}}
+</style>
+</head>
+<body>
+<header><div class="nav"><a class="brand" href="index.html"><img class="brand-logo" src="https://cdn.shopify.com/s/files/1/0954/2284/1079/files/file_00000000992881f49c297c4566527537_7a6d0c10-302f-459a-92d4-f5dd3cffa0c5.png?v=1789147984" alt="Cliff Hub logo"></a><span class="brand-title">Cliff <span>Hub</span></span><nav><a href="index.html#shop">All Products</a><a href="https://xduezu-ag.myshopify.com" target="_blank" rel="noopener">Store</a></nav></div></header>
+<main>
+<section class="hero"><div class="eyebrow">Cliff Hub Collections</div><h1 id="categoryTitle">Browse Category</h1><p id="categoryDescription">Find all products from this collection in one place.</p></section>
+<div class="toolbar"><div class="filters" id="categoryLinks"></div><input id="search" placeholder="Search this category…"></div>
+<section class="grid" id="grid" aria-live="polite"><p class="empty">Loading products…</p></section>
+</main><footer>© 2026 Cliff Hub · Powered by Shopify</footer>
+<script>
+const categories=['Tech','Gaming','Audio','Creator','Home','Outdoor','Wellness','Student'];
+const params=new URLSearchParams(location.search);
+const requested=params.get('cat')||'';
+const category=categories.find(x=>x.toLowerCase()===requested.toLowerCase())||'Tech';
+const title=document.querySelector('#categoryTitle');
+const desc=document.querySelector('#categoryDescription');
+const grid=document.querySelector('#grid');
+const search=document.querySelector('#search');
+title.textContent=category+' Products';
+desc.textContent='Explore all '+category.toLowerCase()+' products available from Cliff Hub.';
+document.title='Cliff Hub | '+category+' Products';
+document.querySelector('#categoryLinks').innerHTML='<a href="index.html#shop">All Products</a>'+categories.map(c=>'<a '+(c===category?'class="active" ':'')+'href="category.html?cat='+encodeURIComponent(c)+'">'+c+'</a>').join('');
+let categoryProducts=[];
+function render(){
+ const q=search.value.trim().toLowerCase();
+ const matches=categoryProducts.filter(card=>(card.dataset.name||'').toLowerCase().includes(q)||(card.querySelector('h3')?.textContent||'').toLowerCase().includes(q));
+ grid.replaceChildren();
+ if(!matches.length){const p=document.createElement('p');p.className='empty';p.textContent=q?'No products match that search in this category.':'No products are currently listed in this category.';grid.append(p);return;}
+ matches.forEach(card=>grid.append(card.cloneNode(true)));
+}
+search.addEventListener('input',render);
+fetch('index.html').then(response=>{if(!response.ok)throw new Error('Could not load product catalog');return response.text()}).then(source=>{
+ const doc=new DOMParser().parseFromString(source,'text/html');
+ categoryProducts=[...doc.querySelectorAll('.product')].filter(card=>card.dataset.cat===category);
+ render();
+}).catch(()=>{grid.innerHTML='<p class="empty">Products could not be loaded right now. Please return to <a href="index.html#shop"><strong>All Products</strong></a> and try again.</p>'});
+</script>
+</body></html>
